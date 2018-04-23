@@ -152,7 +152,7 @@ module.exports = class Reader extends Component {
       constraints.aspectRatio = 1
     }
     if(supported.frameRate) {
-      constraints.frameRate = {ideal: 25, min: 10}
+      constraints.frameRate = {ideal: 25}
     }
     const vConstraintsPromise = (supported.facingMode || isFirefox)
       ? Promise.resolve(constraints)
