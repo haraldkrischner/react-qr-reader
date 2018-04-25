@@ -68,7 +68,6 @@ module.exports = class Reader extends Component {
   }
   componentDidMount() {
     // Initiate web worker execute handler according to mode.
-    console.log(workerBlob)
     this.worker = new Worker(URL.createObjectURL(workerBlob))
     this.worker.onmessage = this.handleWorkerMessage
 
