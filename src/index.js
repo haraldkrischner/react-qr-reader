@@ -9,12 +9,17 @@ require('webrtc-adapter')
 
 // Inline worker.js as a string value of workerBlob.
 let workerBlob
-if(typeof Blob === 'function') {
-  // eslint-disable-next-line
+try {
   workerBlob = new Blob([__inline('../lib/worker.js')], {
     type: 'application/javascript',
   })
+} catch (e) { // Backwards-compatibility
+  window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+  workerBlob = new BlobBuilder()
+  workerBlob.append(__inline('../lib/worker.js'));
+  workerBlob = workerBlob.getBlob()
 }
+console.error(typeof Blob)
 
 // Props that are allowed to change dynamicly
 const propsKeys = ['delay', 'legacyMode', 'facingMode']
@@ -64,6 +69,7 @@ module.exports = class Reader extends Component {
   }
   componentDidMount() {
     // Initiate web worker execute handler according to mode.
+    console.log(workerBlob)
     this.worker = new Worker(URL.createObjectURL(workerBlob))
     this.worker.onmessage = this.handleWorkerMessage
 
