@@ -19,7 +19,6 @@ try {
   workerBlob.append(__inline('../lib/worker.js'));
   workerBlob = workerBlob.getBlob()
 }
-console.error(typeof Blob)
 
 // Props that are allowed to change dynamicly
 const propsKeys = ['delay', 'legacyMode', 'facingMode']
